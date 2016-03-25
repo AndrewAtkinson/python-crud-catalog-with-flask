@@ -1,0 +1,37 @@
+import sys
+import os
+from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy import create_engine
+
+Base = declarative_base()
+
+class Categories:
+	__tablename__ = 'categories' 
+
+	category_id = Column(Integer, primary_key=True)
+	category_name = Column(String(250), nullable=False)
+
+class CatalogItems:
+	__tablename__ = 'catalog_items' 
+
+	item_id = Column(Integer, primary_key=True)
+	item_title = Column(String(250), nullable=False)
+	category_id = Column(Integer, ForeignKey('categories.category_id'))
+	category = relationship(Categories)
+
+
+class Database:
+	def __init__(self):
+		engine = create_engine('sqlite:///catalog.db')
+		Base.metadata.create_all(engine)
+		db_session = sessionmaker(bind=engine)
+		self.db = db_session()
+
+	def get_session(self):
+		return self.db
+		
+
+	
+
