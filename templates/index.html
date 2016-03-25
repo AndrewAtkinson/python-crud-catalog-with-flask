@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
-
-	{% if items != [] %}
+	
+	<div id ="content">
+		{% if items != [] %}
 
 		{% for item in items %}
 
@@ -9,10 +10,12 @@
 
 		{% endfor %}
 
-	{% else %}
+		{% else %}
 
-		<div>There are no items yet, please add one!</div>
+			<p class="lead">There are no items yet, please add one!</p>
 
-	{% endif%}
+		{% endif%}
+	</div>
+
 
 {% endblock %}

@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from database import Base, Categories, CatalogItems, Database
+from database import Base, Category, CatalogItems, Database
 
 '''database setup'''
 db = Database()
@@ -11,7 +11,13 @@ app = Flask(__name__)
 @app.route("/")
 def index():
 	items = db.get_items()
-	return render_template('index.html', items=items)
+	categories = db.get_categories()
+	return render_template('index.html', items=items, categories=categories)
+
+@app.route("/setup")
+def setup():
+	db.generate_categories()
+	return 'Application Setup!'
 
 if __name__ == "__main__":
 	''' Run the web server on all external ports (we need this for the vagrant machine)

@@ -4,10 +4,11 @@ from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
+from faker import Faker #sudo pip install fake-factory
 
 Base = declarative_base()
 
-class Categories(Base):
+class Category(Base):
 	__tablename__ = 'categories' 
 
 	category_id = Column(Integer, primary_key=True)
@@ -20,7 +21,7 @@ class CatalogItems(Base):
 	item_id = Column(Integer, primary_key=True)
 	item_title = Column(String(250), nullable=False)
 	category_id = Column(Integer, ForeignKey('categories.category_id'))
-	category = relationship(Categories)
+	category = relationship(Category)
 
 
 class Database:
@@ -32,7 +33,15 @@ class Database:
 
 	def get_items(self):
 		return self.db.query(CatalogItems).all()
-		
 
-	
+	def get_categories(self):
+		return self.db.query(Category).all()
 
+	def generate_categories(self):
+		fake = Faker()
+		for _ in range(0,10):
+			category = Category(category_name = fake.word())
+			self.db.add(category)
+			print(category.category_name)
+
+		self.db.commit()
