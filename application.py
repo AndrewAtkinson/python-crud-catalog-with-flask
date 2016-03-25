@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from database import Base, Category, CatalogItems, Database
 
 '''database setup'''
@@ -21,7 +21,9 @@ def add():
 
 @app.route("/create" , methods=['POST'])
 def create():
-	return "create"
+	if request.method == 'POST':
+		db.add_item(request)
+		return redirect(url_for('/'))
 
 @app.route("/setup")
 def setup():

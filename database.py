@@ -21,7 +21,7 @@ class CatalogItems(Base):
 	item_id = Column(Integer, primary_key=True)
 	item_title = Column(String(250), nullable=False)
 	item_description = Column(Text)
-	item_description = Column(Text)
+	item_image = Column(String(250))
 	category_id = Column(Integer, ForeignKey('categories.category_id'))
 	category = relationship(Category)
 
@@ -35,6 +35,16 @@ class Database:
 
 	def get_items(self):
 		return self.db.query(CatalogItems).all()
+
+	def add_item(self, request):
+		item = CatalogItems(
+			item_title = request.form['title'],
+			item_description = request.form['description'],
+			category_id = request.form['category_id']
+			)
+		self.db.add(item)
+		self.db.commit()
+
 
 	def get_categories(self):
 		return self.db.query(Category).all()
