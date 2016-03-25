@@ -7,13 +7,14 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
-class Categories:
+class Categories(Base):
 	__tablename__ = 'categories' 
 
 	category_id = Column(Integer, primary_key=True)
 	category_name = Column(String(250), nullable=False)
 
-class CatalogItems:
+
+class CatalogItems(Base):
 	__tablename__ = 'catalog_items' 
 
 	item_id = Column(Integer, primary_key=True)
@@ -29,8 +30,8 @@ class Database:
 		db_session = sessionmaker(bind=engine)
 		self.db = db_session()
 
-	def get_session(self):
-		return self.db
+	def get_items(self):
+		return self.db.query(CatalogItems).all()
 		
 
 	

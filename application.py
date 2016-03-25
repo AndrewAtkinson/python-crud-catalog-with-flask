@@ -1,18 +1,17 @@
-from flask import Flask
+from flask import Flask, render_template
 from database import Base, Categories, CatalogItems, Database
 
 '''database setup'''
 db = Database()
-session = db.get_session()
-
 
 '''Start of Application'''
 
 app = Flask(__name__)
 
 @app.route("/")
-def hello():
-	return "Hello World!!"
+def index():
+	items = db.get_items()
+	return render_template('index.html', items=items)
 
 if __name__ == "__main__":
 	''' Run the web server on all external ports (we need this for the vagrant machine)
