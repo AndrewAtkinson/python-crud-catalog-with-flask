@@ -4,6 +4,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
+from werkzeug import secure_filename
 from faker import Faker #sudo pip install fake-factory
 
 Base = declarative_base()
@@ -37,9 +38,18 @@ class Database:
 		return self.db.query(CatalogItems).all()
 
 	def add_item(self, request):
+		uploaded_file = request.files['image']
+		image = ''
+		if uploaded_file != '':
+			filename = 'images/' + secure_filename(uploaded_file.filename)
+			print(filename)
+			uploaded_file.save(filename)
+			image = filename
+
 		item = CatalogItems(
 			item_title = request.form['title'],
 			item_description = request.form['description'],
+			item_image = image,
 			category_id = request.form['category_id']
 			)
 		self.db.add(item)
