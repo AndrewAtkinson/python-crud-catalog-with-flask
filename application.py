@@ -6,7 +6,7 @@ db = Database()
 
 '''Start of Application'''
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path = "/images", static_folder = "images")
 
 @app.route("/")
 def index():

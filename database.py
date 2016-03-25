@@ -41,9 +41,8 @@ class Database:
 		uploaded_file = request.files['image']
 		image = ''
 		if uploaded_file != '':
-			filename = 'images/' + secure_filename(uploaded_file.filename)
-			print(filename)
-			uploaded_file.save(filename)
+			filename = secure_filename(uploaded_file.filename)
+			uploaded_file.save('images/' + filename)
 			image = filename
 
 		item = CatalogItems(

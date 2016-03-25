@@ -5,8 +5,13 @@
 		{% if items != [] %}
 
 		{% for item in items %}
-
-			{{item.item_title}}
+			<div class="col-md-6 col-lg-4 movie-tile text-center">
+				<img src="{{url_for('static', filename=item.item_image)}}" width="220" height="342">
+				<h2>{{item.item_title}}</h2>
+				<h3>{{item.item_description}}</h3>
+				<button type="submit" class="btn btn-warning">Delete</button>
+			</div>
+			
 
 		{% endfor %}
 
