@@ -19,7 +19,7 @@ def add():
 	categories = db.get_categories()
 	return render_template('form.html', categories=categories)
 
-@app.route("/create")
+@app.route("/create" , methods=['POST'])
 def create():
 	return "create"
 
