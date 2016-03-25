@@ -1,6 +1,6 @@
 import sys
 import os
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
@@ -20,6 +20,8 @@ class CatalogItems(Base):
 
 	item_id = Column(Integer, primary_key=True)
 	item_title = Column(String(250), nullable=False)
+	item_description = Column(Text)
+	item_description = Column(Text)
 	category_id = Column(Integer, ForeignKey('categories.category_id'))
 	category = relationship(Category)
 

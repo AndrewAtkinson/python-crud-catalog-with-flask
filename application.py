@@ -14,6 +14,15 @@ def index():
 	categories = db.get_categories()
 	return render_template('index.html', items=items, categories=categories)
 
+@app.route("/add")
+def add():
+	categories = db.get_categories()
+	return render_template('form.html', categories=categories)
+
+@app.route("/create")
+def create():
+	return "create"
+
 @app.route("/setup")
 def setup():
 	db.generate_categories()

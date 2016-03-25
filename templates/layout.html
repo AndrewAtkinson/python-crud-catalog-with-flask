@@ -18,7 +18,7 @@
   </header>
   <nav class="col-md-2">
   	<ul class="nav nav-pills nav-stacked">
-  		 <li role="presentation" class="active"><a href="#">Add Item</a></li>
+  		 <li role="presentation" class="active"><a href="{{url_for('add')}}">Add Item</a></li>
   		 {% for category in categories %}
   		 	<li role="presentation"><a href="#">{{category.category_name}}</a></li>
   		 {% endfor %}
