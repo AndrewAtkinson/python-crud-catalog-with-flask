@@ -7,9 +7,9 @@
       <div class="col-md-10 col-lg-8 big-tile">
           <div class="col-md-6 col-lg-4">
             {% if item.item_image != '' %} 
-              <img src="{{url_for('static', filename=item.item_image)}}" width="220" height="342">
+              <img src="{{url_for('static', filename=item.item_image)}}" width="220" height="342" class="img-rounded">
             {% else %}
-              <img src="http://placehold.it/220x342"> 
+              <img src="http://placehold.it/220x342" class="img-rounded"> 
             {% endif %} 
           </div>
         <div class="col-md-6 col-lg-4 item-info">

@@ -15,9 +15,9 @@
 					<div class="col-md-12 col-lg-12">
 						<a href="{{url_for('view_item', category_name=item.category.category_name, category_id=item.category.category_id, item_title=item.item_title, item_id=item.item_id)}}" title="{{item.item_title}}">
 							{% if item.item_image != '' %} 
-								<img src="{{url_for('static', filename=item.item_image)}}" width="220" height="342">
+								<img src="{{url_for('static', filename=item.item_image)}}" width="220" height="342" class="img-rounded">
 							{% else %}
-								<img src="http://placehold.it/220x342">	
+								<img src="http://placehold.it/220x342" class="img-rounded">	
 							{% endif %} 
 							<h2>{{item.item_title}}</h2> 
 						</a>

@@ -38,7 +38,7 @@ def update():
 def view_category(category_name, category_id):
 	items = db.get_items_by_category_id(category_id)
 	categories = db.get_categories()
-	return render_template('index.html', items=items, categories=categories)
+	return render_template('index.html', items=items, categories=categories, category_id=category_id)
 
 @app.route("/catalog/<category_name>-cat<int:category_id>/<item_title>-item<int:item_id>")
 def view_item(category_name, category_id, item_title, item_id):

@@ -3,7 +3,7 @@
 
 
 	<div id ="content" class="col-md-8">
-		<p class="lead">Please complete the form to add a new item.</p>
+		<p class="lead">Please complete the form to {% if item.item_id is defined %}update an item.{% else %}add a new item.{% endif %}</p>
 		<form id="item_form" action="{% if item.item_id is defined %}{{url_for('update')}}{% else %}{{url_for('create')}}{% endif %}" method="POST" enctype="multipart/form-data">
 			{% if item.item_id is defined %}
 				<input type="hidden" name="item_id" value="{{item.item_id}}">
@@ -31,7 +31,7 @@
 		    {% if item != [] %}
 ​			<h3>Preview Image:</h3>
 				{% if item.item_image != '' %} 
-					<img src="{{url_for('static', filename=item.item_image)}}" width="220" height="342">
+					<img src="{{url_for('static', filename=item.item_image)}}" width="220" height="342" class="img-rounded">
 				{% else %}
 					<img src="http://placehold.it/220x342">	
 				{% endif %}
