@@ -40,7 +40,7 @@ class Database:
 	def add_item(self, request):
 		uploaded_file = request.files['image']
 		image = ''
-		if uploaded_file != '':
+		if uploaded_file.filename != '':
 			filename = secure_filename(uploaded_file.filename)
 			uploaded_file.save('images/' + filename)
 			image = filename

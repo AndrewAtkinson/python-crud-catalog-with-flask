@@ -5,8 +5,12 @@
 		{% if items != [] %}
 
 		{% for item in items %}
-			<div class="col-md-6 col-lg-4 movie-tile text-center">
-				<img src="{{url_for('static', filename=item.item_image)}}" width="220" height="342">
+			<div class="col-md-6 col-lg-4 tile text-center">
+				{% if item.item_image != '' %} 
+					<img src="{{url_for('static', filename=item.item_image)}}" width="220" height="342">
+				{% else %}
+					<img src="http://placehold.it/220x342">	
+				{% endif %} 
 				<h2>{{item.item_title}}</h2>
 				<h3>{{item.item_description}}</h3>
 				<button type="submit" class="btn btn-warning">Delete</button>
