@@ -63,6 +63,5 @@ class Database:
 		for _ in range(0,10):
 			category = Category(category_name = fake.word())
 			self.db.add(category)
-			print(category.category_name)
 
 		self.db.commit()
