@@ -24,7 +24,15 @@ def add():
 def create():
 	if request.method == 'POST':
 		db.add_item(request)
-		return redirect(url_for("index"))
+	
+	return redirect(url_for("index"))
+
+@app.route("/update" , methods=['POST'])
+def update():
+	if request.method == 'POST':
+		db.update_item(request)
+	
+	return redirect(url_for("index"))
 
 @app.route("/catalog/<category_name>-cat<int:category_id>")
 def view_category(category_name, category_id):
@@ -43,7 +51,7 @@ def edit_item(category_name, category_id, item_title, item_id):
 	item = db.get_item(item_id)
 	categories = db.get_categories()
 	return render_template('form.html', categories=categories, item=item)
-	
+
 @app.route("/catalog/<category_name>-cat<int:category_id>/<item_title>-item<int:item_id>/delete")
 def delete_item(category_name, category_id, item_title, item_id):
 	item = db.get_item(item_id)

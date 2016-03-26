@@ -61,6 +61,24 @@ class Database:
 		self.db.add(item)
 		self.db.commit
 
+	def update_item(self, request):
+		if request.form['item_id'] != '':
+			item = self.get_item(request.form['item_id'])
+			item.item_title = request.form['title']
+			item.item_description = request.form['description']
+			item.category_id = request.form['category_id']
+
+			uploaded_file = request.files['image']
+			if uploaded_file.filename != '':
+				filename = secure_filename(uploaded_file.filename)
+				uploaded_file.save('images/' + filename)
+				item.item_image = filename
+
+			self.db.add(item)
+			self.db.commit
+
+
+
 	def get_categories(self):
 		return self.db.query(Category).all()
 

@@ -6,24 +6,35 @@
 
 		{% for item in items %}
 			<div class="col-md-6 col-lg-4 tile text-center">
-				<a href="{{url_for('view_item', category_name=item.category.category_name, category_id=item.category.category_id, item_title=item.item_title, item_id=item.item_id)}}" title="{{item.item_title}}">
-					{% if item.item_image != '' %} 
-						<img src="{{url_for('static', filename=item.item_image)}}" width="220" height="342">
-					{% else %}
-						<img src="http://placehold.it/220x342">	
-					{% endif %} 
-					<h2>{{item.item_title}}</h2> 
-				</a>
-				<a href="{{url_for("view_category", category_name=item.category.category_name, category_id=item.category.category_id)}}" title="{{item.category.category_name}}">({{item.category.category_name}})</a>
-				<button type="submit" class="btn btn-warning">Delete</button>
+				<div class="row">
+					<div class="col-md-12 col-lg-12">
+						<a href="{{url_for('view_item', category_name=item.category.category_name, category_id=item.category.category_id, item_title=item.item_title, item_id=item.item_id)}}" title="{{item.item_title}}">
+							{% if item.item_image != '' %} 
+								<img src="{{url_for('static', filename=item.item_image)}}" width="220" height="342">
+							{% else %}
+								<img src="http://placehold.it/220x342">	
+							{% endif %} 
+							<h2>{{item.item_title}}</h2> 
+						</a>
+						<a href="{{url_for("view_category", category_name=item.category.category_name, category_id=item.category.category_id)}}" title="{{item.category.category_name}}">({{item.category.category_name}})</a>
+					</div>
+					<div class="row">
+						<div class="col-md-12 col-lg-12">
+			              <a class="btn btn-warning" href="{{url_for('edit_item', category_name=item.category.category_name, category_id=item.category.category_id, item_title=item.item_title, item_id=item.item_id)}}" title="Edit {{item.item_title}}">Edit</a>
+			              <a class="btn btn-danger" href="{{url_for('delete_item', category_name=item.category.category_name, category_id=item.category.category_id, item_title=item.item_title, item_id=item.item_id)}}" title="Delete {{item.item_title}}">Delete</a>
+			            </div>
+					</div>
+				</div>
 			</div>
 			
-
 		{% endfor %}
 
 		{% else %}
-
-			<p class="lead">There are no items yet, please add one!</p>
+			<div class="col-md-6 col-lg-4 tile text-center">
+				<div class="row">
+					<p class="lead">There are no items yet, please add one!</p>
+				</div>
+			</div>
 
 		{% endif%}
 	</div>
