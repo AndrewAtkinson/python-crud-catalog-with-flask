@@ -2,6 +2,11 @@
 {% block content %}
 	
 	<div id ="content">
+		<div class="col-md-12 col-lg-12 tile text-center">
+			<div class="row">
+				<a class="btn btn-success" href="{{url_for('add')}}" title="Add New Item">Add New Items</a>
+			</div>
+		</div>
 		{% if items != [] %}
 
 		{% for item in items %}
