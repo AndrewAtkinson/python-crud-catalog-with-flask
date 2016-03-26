@@ -6,14 +6,15 @@
 
 		{% for item in items %}
 			<div class="col-md-6 col-lg-4 tile text-center">
-				{% if item.item_image != '' %} 
-					<img src="{{url_for('static', filename=item.item_image)}}" width="220" height="342">
-				{% else %}
-					<img src="http://placehold.it/220x342">	
-				{% endif %} 
-				<h2>{{item.item_title}}</h2> 
-				({{item.category.category_name}})
-				<h3>{{item.item_description}}</h3>
+				<a href="{{url_for('view_item', category_name=item.category.category_name, category_id=item.category.category_id, item_title=item.item_title, item_id=item.item_id)}}" title="{{item.item_title}}">
+					{% if item.item_image != '' %} 
+						<img src="{{url_for('static', filename=item.item_image)}}" width="220" height="342">
+					{% else %}
+						<img src="http://placehold.it/220x342">	
+					{% endif %} 
+					<h2>{{item.item_title}}</h2> 
+				</a>
+				<a href="{{url_for("view_category", category_name=item.category.category_name, category_id=item.category.category_id)}}" title="{{item.category.category_name}}">({{item.category.category_name}})</a>
 				<button type="submit" class="btn btn-warning">Delete</button>
 			</div>
 			

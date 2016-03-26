@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block content %}
+  
+  <div id ="content">
+    {% if item != [] %}
+    <div class="row">
+      <div class="col-md-10 col-lg-8 big-tile">
+          <div class="col-md-6 col-lg-4">
+            {% if item.item_image != '' %} 
+              <img src="{{url_for('static', filename=item.item_image)}}" width="220" height="342">
+            {% else %}
+              <img src="http://placehold.it/220x342"> 
+            {% endif %} 
+          </div>
+        <div class="col-md-6 col-lg-4 item-info">
+          <div class="row">
+              <div class="col-md-12 col-lg-12">
+                  <h2>{{item.item_title}}</h2> 
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <a href="{{url_for("view_category", category_name=item.category.category_name, category_id=item.category.category_id)}}" title="{{item.category.category_name}}">({{item.category.category_name}})</a>
+              </div>
+          </div>
+          {% if item.item_description != '' %} 
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <h3>Description:</h3>
+              {{item.item_description}}
+            </div>
+          </div>
+          {% endif %} 
+          <div class="row">
+            <div class="col-md-12 col-lg-12">
+              <a class="btn btn-warning" href="{{url_for('edit_item', category_name=item.category.category_name, category_id=item.category.category_id, item_title=item.item_title, item_id=item.item_id)}}" title="Edit {{item.item_title}}">Edit</a>
+              <a class="btn btn-danger" href="{{url_for('delete_item', category_name=item.category.category_name, category_id=item.category.category_id, item_title=item.item_title, item_id=item.item_id)}}" title="Delete {{item.item_title}}">Delete</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    {% else %}
+
+      <p class="lead">No item found!</p>
+
+    {% endif%}
+  </div>
+
+
+{% endblock %}

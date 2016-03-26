@@ -14,6 +14,11 @@
         .tile {
             padding-top: 80px;
         }
+        .big-tile {
+        	position: absolute;
+            padding-top: 100px;
+            height: 342px;
+        }
         #content {
         	position: absolute;
         	left: 25%;
@@ -29,7 +34,7 @@
   	<ul class="nav nav-pills nav-stacked">
   		 <li role="presentation" class="active"><a href="{{url_for('add')}}">Add Item</a></li>
   		 {% for category in categories %}
-  		 	<li role="presentation"><a href="#">{{category.category_name}}</a></li>
+  		 	<li role="presentation"><a href="{{url_for("view_category", category_name=category.category_name, category_id=category.category_id)}}">{{category.category_name}}</a></li>
   		 {% endfor %}
 	</ul>
   </nav> 

@@ -38,6 +38,12 @@ class Database:
 	def get_items(self):
 		return self.db.query(CatalogItems).filter(CatalogItems.item_deleted == False).order_by("catalog_items.item_id desc").all()
 
+	def get_item(self, item_id):
+		return self.db.query(CatalogItems).filter(CatalogItems.item_id == item_id).one()
+
+	def get_items_by_category_id(self, category_id):
+		return self.db.query(CatalogItems).filter(CatalogItems.item_deleted == False).filter(CatalogItems.category_id == category_id).order_by("catalog_items.item_id desc").all()
+
 	def add_item(self, request):
 		uploaded_file = request.files['image']
 		image = ''
@@ -57,6 +63,9 @@ class Database:
 
 	def get_categories(self):
 		return self.db.query(Category).all()
+
+	def get_category(self, category_id):
+		return self.db.query(Category).filter(Category.category_id == category_id).one()
 
 	def generate_categories(self):
 		fake = Faker()

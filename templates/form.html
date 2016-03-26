@@ -1,29 +1,38 @@
 {% extends "layout.html" %}
 {% block content %}
-	
+
+
 	<div id ="content" class="col-md-8">
 		<p class="lead">Please complete the form to add a new item.</p>
 		<form id="item_form" action="{{url_for('create')}}" method="POST" enctype="multipart/form-data">
 		  <div class="form-group">
 		    <label for="title">Title</label>
-		    <input type="text" class="form-control" id="title" placeholder="Title" name="title">
+		    <input type="text" class="form-control" id="title" placeholder="Title" name="title" value="{{item.item_title}}">
 		  </div>
 		  <div class="form-group">
 		    <label for="description">Description</label>
-		    <textarea class="form-control" rows="3" id="description" name="description"></textarea>
+		    <textarea class="form-control" rows="3" id="description" name="description">{{item.item_description}}</textarea>
 		  </div>
 		  <div class="form-group">
 		  	<label for="category">Category</label>
 		  	<select class="form-control" name="category_id" id="category">
 		  		{% for category in categories %}
-			  		<option value="{{category.category_id}}">{{category.category_name}}</option>
+			  		<option value="{{category.category_id}}" >{{category.category_name}}</option>
 			  	{% endfor %}
 			</select>
 		  </div>
 		  <div class="form-group">
 		    <label for="image">Image Input</label>
 		    <input type="file" id="image" name="image">
-		    <p class="help-block">Please upload a file.</p>
+		    <p class="help-block">Please upload a image (220x342px).</p>
+		    {% if item != [] %}
+​			<h3>Preview Image:</h3>
+				{% if item.item_image != '' %} 
+					<img src="{{url_for('static', filename=item.item_image)}}" width="220" height="342">
+				{% else %}
+					<img src="http://placehold.it/220x342">	
+				{% endif %}
+			{% endif %}
 		  </div>
 		  <button type="submit" class="btn btn-success">Submit</button>
 		</form>
