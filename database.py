@@ -59,7 +59,7 @@ class Database:
 			category_id = request.form['category_id']
 			)
 		self.db.add(item)
-		self.db.commit
+		self.db.commit()
 
 	def update_item(self, request):
 		if request.form['item_id'] != '':
@@ -75,7 +75,7 @@ class Database:
 				item.item_image = filename
 
 			self.db.add(item)
-			self.db.commit
+			self.db.commit()
 
 
 
