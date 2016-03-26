@@ -1,6 +1,6 @@
 import sys
 import os
-from sqlalchemy import Column, ForeignKey, Integer, String, Text
+from sqlalchemy import Column, ForeignKey, Integer, String, Text, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
@@ -23,6 +23,7 @@ class CatalogItems(Base):
 	item_title = Column(String(250), nullable=False)
 	item_description = Column(Text)
 	item_image = Column(String(250))
+	item_deleted = Column(Boolean, default=False)
 	category_id = Column(Integer, ForeignKey('categories.category_id'))
 	category = relationship(Category)
 
@@ -35,7 +36,7 @@ class Database:
 		self.db = db_session()
 
 	def get_items(self):
-		return self.db.query(CatalogItems).all()
+		return self.db.query(CatalogItems).filter(CatalogItems.item_deleted == False).order_by("catalog_items.item_id desc").all()
 
 	def add_item(self, request):
 		uploaded_file = request.files['image']
@@ -52,8 +53,7 @@ class Database:
 			category_id = request.form['category_id']
 			)
 		self.db.add(item)
-		self.db.commit()
-
+		self.db.commit
 
 	def get_categories(self):
 		return self.db.query(Category).all()

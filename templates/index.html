@@ -11,7 +11,8 @@
 				{% else %}
 					<img src="http://placehold.it/220x342">	
 				{% endif %} 
-				<h2>{{item.item_title}}</h2>
+				<h2>{{item.item_title}}</h2> 
+				({{item.category.category_name}})
 				<h3>{{item.item_description}}</h3>
 				<button type="submit" class="btn btn-warning">Delete</button>
 			</div>

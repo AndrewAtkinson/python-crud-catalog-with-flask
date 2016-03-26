@@ -28,7 +28,7 @@ def create():
 @app.route("/setup")
 def setup():
 	db.generate_categories()
-	return 'Application Setup!'
+	return redirect(url_for("index"))
 
 if __name__ == "__main__":
 	''' Run the web server on all external ports (we need this for the vagrant machine)
