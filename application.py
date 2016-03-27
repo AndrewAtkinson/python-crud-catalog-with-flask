@@ -67,6 +67,7 @@ def setup():
 	db.generate_categories()
 	return redirect(url_for("index"))
 
+
 if __name__ == "__main__":
 	''' Run the web server on all external ports (we need this for the vagrant machine)
 	and on port 8000. debugging for now is allowed so changes can be tested quickly

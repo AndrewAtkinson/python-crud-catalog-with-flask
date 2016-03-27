@@ -6,6 +6,7 @@ from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
 from werkzeug import secure_filename
 from faker import Faker #sudo pip install fake-factory
+from random import randrange
 
 Base = declarative_base()
 
@@ -94,5 +95,11 @@ class Database:
 		for _ in range(0,10):
 			category = Category(category_name = fake.word())
 			self.db.add(category)
+			item = CatalogItems(
+			item_title = fake.word(),
+			item_description = fake.sentence(),
+			item_image = '',
+			category_id = randrange(1, 10)			)
+			self.db.add(item)
 
 		self.db.commit()
