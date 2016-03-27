@@ -7,6 +7,8 @@ from sqlalchemy import create_engine
 from werkzeug import secure_filename
 from faker import Faker #sudo pip install fake-factory
 from random import randrange
+from flask import jsonify
+import json
 
 Base = declarative_base()
 
@@ -15,6 +17,12 @@ class Category(Base):
 
 	category_id = Column(Integer, primary_key=True)
 	category_name = Column(String(250), nullable=False)
+
+	@property
+	def serialise(self):
+	    return {'id_': self.category_id,
+	            'name': self.category_name,
+	           }
 
 
 class CatalogItems(Base):
@@ -28,6 +36,16 @@ class CatalogItems(Base):
 	category_id = Column(Integer, ForeignKey('categories.category_id'))
 	category = relationship(Category)
 
+	@property
+	def serialise(self):
+	    return {
+	    		'id': self.item_id,
+	    		'title': self.item_title,
+	            'description': self.item_description,
+	            'image': self.item_image,
+	            'category': self.category.category_name,
+	           }
+
 
 class Database:
 	def __init__(self):
@@ -36,14 +54,32 @@ class Database:
 		db_session = sessionmaker(bind=engine)
 		self.db = db_session()
 
-	def get_items(self):
-		return self.db.query(CatalogItems).filter(CatalogItems.item_deleted == False).order_by("catalog_items.item_id desc").all()
+	def get_items(self, return_json = False):
 
-	def get_item(self, item_id):
-		return self.db.query(CatalogItems).filter(CatalogItems.item_id == item_id).one()
+		items = self.db.query(CatalogItems).filter(CatalogItems.item_deleted == False).order_by("catalog_items.item_id desc").all()
 
-	def get_items_by_category_id(self, category_id):
-		return self.db.query(CatalogItems).filter(CatalogItems.item_deleted == False).filter(CatalogItems.category_id == category_id).order_by("catalog_items.item_id desc").all()
+		if return_json:
+			return jsonify(CatalogItems=[item.serialise for item in items])
+
+		return items
+
+	def get_item(self, item_id, return_json = False):
+
+		item = self.db.query(CatalogItems).filter(CatalogItems.item_id == item_id).one()
+
+		if return_json:
+			return jsonify(CatalogItems=[item.serialise])
+
+		return item
+
+	def get_items_by_category_id(self, category_id, return_json = False):
+
+		items = self.db.query(CatalogItems).filter(CatalogItems.item_deleted == False).filter(CatalogItems.category_id == category_id).order_by("catalog_items.item_id desc").all()
+
+		if return_json:
+			return jsonify(CatalogItems=[item.serialise for item in items])
+			
+		return items
 
 	def add_item(self, request):
 		uploaded_file = request.files['image']
@@ -84,11 +120,23 @@ class Database:
 		self.db.add(item)
 		self.db.commit()
 
-	def get_categories(self):
-		return self.db.query(Category).all()
+	def get_categories(self, return_json = False):
 
-	def get_category(self, category_id):
-		return self.db.query(Category).filter(Category.category_id == category_id).one()
+		categories = self.db.query(Category).all()
+
+		if return_json:
+			return jsonify(Categories=[category.serialise for category in categories])
+
+		return categories
+
+	def get_category(self, category_id, return_json = False):
+
+		category = self.db.query(Category).filter(Category.category_id == category_id).one()
+
+		if return_json:
+			return jsonify(Category=[category.serialise])
+
+		return category
 
 	def generate_categories(self):
 		fake = Faker()
