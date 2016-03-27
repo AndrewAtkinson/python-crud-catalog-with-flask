@@ -20,7 +20,8 @@ class Category(Base):
 
 	@property
 	def serialise(self):
-	    return {'id_': self.category_id,
+	    return {
+    			'id_': self.category_id,
 	            'name': self.category_name,
 	           }
 
@@ -39,11 +40,11 @@ class CatalogItems(Base):
 	@property
 	def serialise(self):
 	    return {
-	    		'id': self.item_id,
-	    		'title': self.item_title,
-	            'description': self.item_description,
-	            'image': self.item_image,
-	            'category': self.category.category_name,
+				'id': self.item_id,
+				'title': self.item_title,
+				'description': self.item_description,
+				'image': self.item_image,
+				'category': self.category.category_name,
 	           }
 
 
@@ -78,7 +79,7 @@ class Database:
 
 		if return_json:
 			return jsonify(CatalogItems=[item.serialise for item in items])
-			
+
 		return items
 
 	def add_item(self, request):
