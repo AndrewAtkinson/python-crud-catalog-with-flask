@@ -70,13 +70,19 @@ def create():
 
 @app.route("/update" , methods=['POST'])
 def update():
+	item = db.get_item(request.form['item_id'])
+
 	if(get_user_id() == 0):
-		flash('You must be logged in to create an item', 'error')
+		flash('You must be logged in to update an item', 'error')
 		return redirect(url_for("index"))
+
+	if(get_user_id() != item.user_id):
+		flash('You do not have permission to update this item', 'error')
+		return redirect(url_for("index"))
+
 
 	if request.form['title'] == '':
 		flash('The item must have a title', 'error')
-		item = db.get_item(request.form['item_id'])
 		return redirect(url_for('edit_item', category_name=item.category.category_name, category_id=item.category.category_id, item_title=item.item_title, item_id=item.item_id))
 
 	if request.method == 'POST':
@@ -113,6 +119,12 @@ def edit_item(category_name, category_id, item_title, item_id):
 
 @app.route("/catalog/<category_name>-cat<int:category_id>/<item_title>-item<int:item_id>/delete")
 def delete_item(category_name, category_id, item_title, item_id):
+	item = db.get_item(item_id)
+
+	if(get_user_id() != item.user_id):
+		flash('You do not have permission to delete this item', 'error')
+		return redirect(url_for("index"))
+
 	db.delete_item(item_id)
 	return redirect(url_for("index"))
 
