@@ -68,13 +68,13 @@ def view_category_json(category_name, category_id):
 	return db.get_items_by_category_id(category_id, True)
 
 @app.route("/catalog/<category_name>-cat<int:category_id>/<item_title>-item<int:item_id>")
-def view_item_json(category_name, category_id, item_title, item_id):
+def view_item(category_name, category_id, item_title, item_id):
 	item = db.get_item(item_id)
 	categories = db.get_categories()
 	return render_template('item.html', categories=categories, item=item)
 
 @app.route("/catalog/<category_name>-cat<int:category_id>/<item_title>-item<int:item_id>/JSON")
-def view_item(category_name, category_id, item_title, item_id):
+def view_item_json(category_name, category_id, item_title, item_id):
 	return db.get_item(item_id, True)
 
 @app.route("/catalog/<category_name>-cat<int:category_id>/<item_title>-item<int:item_id>/edit")
