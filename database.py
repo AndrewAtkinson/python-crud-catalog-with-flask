@@ -77,7 +77,11 @@ class Database:
 			self.db.add(item)
 			self.db.commit()
 
-
+	def delete_item(self, item_id):
+		item = self.get_item(item_id)
+		item.item_deleted = True
+		self.db.add(item)
+		self.db.commit()
 
 	def get_categories(self):
 		return self.db.query(Category).all()

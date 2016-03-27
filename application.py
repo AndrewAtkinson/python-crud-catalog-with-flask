@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from database import Base, Category, CatalogItems, Database
 
 '''database setup'''
@@ -22,6 +22,10 @@ def add():
 
 @app.route("/create" , methods=['POST'])
 def create():
+	if request.form['title'] == '':
+		flash(u'The item must have a title', 'error')
+		return redirect(url_for("add"))
+
 	if request.method == 'POST':
 		db.add_item(request)
 	
@@ -54,9 +58,8 @@ def edit_item(category_name, category_id, item_title, item_id):
 
 @app.route("/catalog/<category_name>-cat<int:category_id>/<item_title>-item<int:item_id>/delete")
 def delete_item(category_name, category_id, item_title, item_id):
-	item = db.get_item(item_id)
-	categories = db.get_categories()
-	return "TODO"
+	db.delete_item(item_id)
+	return redirect(url_for("index"))
 
 
 @app.route("/setup")
@@ -69,4 +72,5 @@ if __name__ == "__main__":
 	and on port 8000. debugging for now is allowed so changes can be tested quickly
 	and we can see any error messages.
 	'''
+	app.secret_key = 'A0Zr98j/3yX T~XH--jmN]LWX/,?RT'
 	app.run(host='0.0.0.0', port=8000, debug=True)

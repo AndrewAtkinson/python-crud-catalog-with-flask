@@ -3,6 +3,24 @@
 
 
 	<div id ="content" class="col-md-8">
+		{% with errors = get_flashed_messages(category_filter=["error"]) %}
+		{% if errors %}
+		    {%- for error in errors %}
+		    <div class="alert alert-danger" role="alert">
+			  <a href="#" class="alert-link">{{error}}</a>
+			</div>
+		    {% endfor -%}
+		{% endif %}
+		{% endwith %} 
+		{% with messages = get_flashed_messages(category_filter=["success"]) %}
+		{% if messages %}
+		    {%- for message in messages %}
+		    <div class="alert alert-success" role="alert">
+			  <a href="#" class="alert-link">{{message}}</a>
+			</div>
+		    {% endfor -%}
+		{% endif %}
+		{% endwith %}
 		<p class="lead">Please complete the form to {% if item.item_id is defined %}update an item.{% else %}add a new item.{% endif %}</p>
 		<form id="item_form" action="{% if item.item_id is defined %}{{url_for('update')}}{% else %}{{url_for('create')}}{% endif %}" method="POST" enctype="multipart/form-data">
 			{% if item.item_id is defined %}
