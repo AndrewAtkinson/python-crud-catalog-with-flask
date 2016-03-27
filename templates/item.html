@@ -31,12 +31,14 @@
             </div>
           </div>
           {% endif %} 
+          {% if google_plus_id() == item.user_id %}
           <div class="row">
             <div class="col-md-12 col-lg-12">
               <a class="btn btn-warning" href="{{url_for('edit_item', category_name=item.category.category_name, category_id=item.category.category_id, item_title=item.item_title, item_id=item.item_id)}}" title="Edit {{item.item_title}}">Edit</a>
               <a class="btn btn-danger" href="#" data-href="{{url_for('delete_item', category_name=item.category.category_name, category_id=item.category.category_id, item_title=item.item_title, item_id=item.item_id)}}" title="Delete {{item.item_title}}" data-toggle="modal" data-target="#confirm-delete">Delete</a>
             </div>
           </div>
+          {% endif%}
         </div>
       </div>
     </div>

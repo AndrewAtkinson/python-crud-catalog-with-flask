@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from werkzeug import secure_filename
 from faker import Faker #sudo pip install fake-factory
 from random import randrange
-from flask import jsonify
+from flask import jsonify, session
 import json
 
 Base = declarative_base()
@@ -34,6 +34,7 @@ class CatalogItems(Base):
 	item_description = Column(Text)
 	item_image = Column(String(250))
 	item_deleted = Column(Boolean, default=False)
+	user_id = Column(String(250), nullable=False)
 	category_id = Column(Integer, ForeignKey('categories.category_id'))
 	category = relationship(Category)
 
@@ -82,7 +83,7 @@ class Database:
 
 		return items
 
-	def add_item(self, request):
+	def add_item(self, request, user_id):
 		uploaded_file = request.files['image']
 		image = ''
 		if uploaded_file.filename != '':
@@ -94,7 +95,8 @@ class Database:
 			item_title = request.form['title'],
 			item_description = request.form['description'],
 			item_image = image,
-			category_id = request.form['category_id']
+			category_id = request.form['category_id'],
+			user_id = user_id
 			)
 		self.db.add(item)
 		self.db.commit()
@@ -139,7 +141,7 @@ class Database:
 
 		return category
 
-	def generate_categories(self):
+	def generate_data(self, user_id):
 		fake = Faker()
 		for _ in range(0,10):
 			category = Category(category_name = fake.word())
@@ -148,7 +150,9 @@ class Database:
 			item_title = fake.word(),
 			item_description = fake.sentence(),
 			item_image = '',
-			category_id = randrange(1, 10)			)
-			self.db.add(item)
+			category_id = randrange(1, 10),
+			user_id = user_id			
+			)
+			self.db.add(item,)
 
 		self.db.commit()

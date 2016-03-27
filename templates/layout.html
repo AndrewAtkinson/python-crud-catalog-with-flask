@@ -10,6 +10,7 @@
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<script src="//apis.google.com/js/platform.js?onload=start"> </script>
 	<style type="text/css" media="screen">
         .tile {
             padding-top: 80px;
@@ -23,10 +24,14 @@
         	position: absolute;
         	left: 25%;
         	width: 70%;
+        	z-index: -1;
         }
-        header{
-        	width: 100%;
-        	background-color:blue;
+        .add-button{
+        	position: relative;
+        	top:50px;
+        }
+        .alert{
+        	z-index: 2;
         }
     </style>
   </head>
@@ -34,9 +39,30 @@
   <header>
 		<div class="col-md-12 col-lg-12">
 			<div class="row">
+				<div class="col-md-10 col-lg-10">
 				<a href="{{url_for('index')}}" title="Homepage">
 		  			<h1>The Catalog</h1>
 		  		</a>
+		  		</div>
+		  		<div class="col-md-2 col-lg-2">
+		  		{% if google_plus_id() == 0 %}
+				<!-- GOOGLE PLUS SIGN IN BUTTON--> 		          
+				          <div id="signInButton">
+				          <span class="g-signin"
+				            data-scope="openid email"
+				            data-clientid="1009874113857-1352480pf2taahtfeu4qebbcilbd0gus.apps.googleusercontent.com"
+				            data-redirecturi="postmessage"
+				            data-accesstype="offline"
+				            data-cookiepolicy="single_host_origin"
+				            data-callback="signInCallback"
+				            data-approvalprompt="force">
+				          </span>
+				        </div>
+				 {% else %}
+				 	Logged in as {{google_plus_username()}} <a href="{{url_for('logout')}}">Logout</a>
+				 {% endif %}
+				<!--END GOOGLE PLUS SIGN IN BUTTON -->
+			</div>
 		  </div>
 		</div>
   </header>
@@ -48,5 +74,31 @@
 	</ul>
   </nav> 
   {% block content %}{% endblock %}
+  <script type="text/JavaScript">
+	function signInCallback(authResult) {
+	  if (authResult['code']) {
+	  	//hide login button
+	    $('#signinButton').attr('style', 'display: none');
+	    //check the users login 
+	    $.ajax({
+	      type: 'POST',
+	      url: '/gconnect?state={{ STATE() }}',
+	      processData: false,
+	      data: authResult['code'],
+	      contentType: 'application/octet-stream; charset=utf-8',
+	      success: function(result) {
+	        // redirect to homepage
+	        if (result) {
+	         setTimeout(function() {
+	          window.location.href = '{{url_for('index')}}';
+	         }, 100);
+	          
+	      } else if (authResult['error']) {
+	    console.log('There was an error: ' + authResult['error']);
+	  } 
+	      }
+	      
+	  }); } }
+</script>
   </body>
 </html>

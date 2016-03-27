@@ -26,6 +26,7 @@
 			{% if item.item_id is defined %}
 				<input type="hidden" name="item_id" value="{{item.item_id}}">
 			{% endif %}
+		  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 		  <div class="form-group">
 		    <label for="title">Title</label>
 		    <input type="text" class="form-control" id="title" placeholder="Title" name="title" value="{{item.item_title}}">
