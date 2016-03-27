@@ -27,3 +27,7 @@ A Python CRUD catalog written with the flask framework
 
 10. Optional go to http://127.0.0.1:8000/setup to generate category and item data. (who ever is logged in will have the access rights to these item.)
 
+
+#Demo
+https://monosnap.com/file/J7AzzvaefQyhJS0eo8yXX0brew7BDp
+
