@@ -57,7 +57,13 @@ class Database:
 		self.db = db_session()
 
 	def get_items(self, return_json = False):
+		"""Gets all the none deleted items.
+	    Args:
+	      return_json:  return as json
 
+	     Return: 
+	     list of items
+	    """
 		items = self.db.query(CatalogItems).filter(CatalogItems.item_deleted == False).order_by("catalog_items.item_id desc").all()
 
 		if return_json:
@@ -66,7 +72,14 @@ class Database:
 		return items
 
 	def get_item(self, item_id, return_json = False):
+		"""Gets an item.
+	    Args:
+	    	item_id: id of item to get
+	      	return_json:  return as json
 
+	     Return: 
+	     an item
+	    """
 		item = self.db.query(CatalogItems).filter(CatalogItems.item_id == item_id).one()
 
 		if return_json:
@@ -75,7 +88,14 @@ class Database:
 		return item
 
 	def get_items_by_category_id(self, category_id, return_json = False):
+		"""Gets an item.
+	    Args:
+	    	category_id: id of category to get items for
+	      	return_json:  return as json
 
+	     Return: 
+	     all items in a category
+	    """
 		items = self.db.query(CatalogItems).filter(CatalogItems.item_deleted == False).filter(CatalogItems.category_id == category_id).order_by("catalog_items.item_id desc").all()
 
 		if return_json:
@@ -84,6 +104,11 @@ class Database:
 		return items
 
 	def add_item(self, request, user_id):
+		"""Adds an item record.
+	    Args:
+	    	request: the form request
+	    	item_id: id of item to get
+	    """
 		uploaded_file = request.files['image']
 		image = ''
 		if uploaded_file.filename != '':
@@ -102,6 +127,10 @@ class Database:
 		self.db.commit()
 
 	def update_item(self, request):
+		"""updates an item record.
+	    Args:
+	    	request: the form request
+	    """
 		if request.form['item_id'] != '':
 			item = self.get_item(request.form['item_id'])
 			item.item_title = request.form['title']
@@ -118,13 +147,23 @@ class Database:
 			self.db.commit()
 
 	def delete_item(self, item_id):
+		"""marks an item record as deleted.
+	    Args:
+	    	item_id: id of item to delete
+	    """
 		item = self.get_item(item_id)
 		item.item_deleted = True
 		self.db.add(item)
 		self.db.commit()
 
 	def get_categories(self, return_json = False):
+		"""Gets the categories.
+	    Args:
+	      	return_json:  return as json
 
+	     Return: 
+	     list of categories
+	    """
 		categories = self.db.query(Category).all()
 
 		if return_json:
@@ -133,7 +172,14 @@ class Database:
 		return categories
 
 	def get_category(self, category_id, return_json = False):
+		"""Gets the a category.
+	    Args:
+	    	category_id:  category_id to get
+	      	return_json:  return as json
 
+	     Return: 
+	     a category
+	    """
 		category = self.db.query(Category).filter(Category.category_id == category_id).one()
 
 		if return_json:
@@ -142,6 +188,11 @@ class Database:
 		return category
 
 	def generate_data(self, user_id):
+		"""Generates dummy data
+	    Args:
+	    	user_id:  the owner of the items
+
+	    """
 		fake = Faker()
 		for _ in range(0,10):
 			category = Category(category_name = fake.word())
